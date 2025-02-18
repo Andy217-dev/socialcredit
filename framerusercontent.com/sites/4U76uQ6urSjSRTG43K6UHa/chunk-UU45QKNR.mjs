@@ -4434,7 +4434,7 @@ var kr = { damping: 60, delay: 0, mass: 1, stiffness: 500, type: "spring" },
                 }),
               }),
               e(C, {
-                href: "https://dexscreener.com/ethereum/0x0123456789",
+                href: "https://dexscreener.com/ethereum/0x00000000000000",
                 openInNewTab: !1,
                 children: d(t.a, {
                   className: "framer-1slpcud framer-y3t7xr",

@@ -510,7 +510,7 @@ var He = { damping: 60, delay: 0, mass: 1, stiffness: 500, type: "spring" },
                                         id: "g9t0vCL8P",
                                         layoutId: "g9t0vCL8P",
                                         O_UXi1lYz:
-                                          "https://www.dextools.io/app/en/ether/pair-explorer/0x03e425573a8bb02a5fe15cffb3ede53e21e35911",
+                                          "https://www.dextools.io/app/en/ether/pair-explorer/0x00000000000000",
                                         style: {
                                           height: "100%",
                                           width: "100%",
