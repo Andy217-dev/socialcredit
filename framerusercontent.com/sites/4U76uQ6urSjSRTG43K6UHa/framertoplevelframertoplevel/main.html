@@ -1,0 +1,147 @@
+
+        import * as React from "react"
+        import * as ReactDOM from "react-dom/client"
+        import * as Framer from "framer"
+
+        const routes = {augiA20Il: {elements: {}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/354hhVPW6ecu7VNgMOKV/pu5eFwOiUqnSWQ0UvSdI/augiA20Il.js")), path: "/"}, HTxAICGwp: {elements: {}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/aBBjbVy5xrWZQIpqZ1lG/qLiZq3FQ6Ca6JeBanwI6/HTxAICGwp.js")), path: "/Testimonials"}, kIHhZobHR: {elements: {}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/dOQDRXvbOqYwrKFIIqhh/ShRIjOpl20RVNyyxf5Td/kIHhZobHR.js")), path: "/Contact"}, uXqkqYdC9: {elements: {}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/vIF6jf2KMsPztFBt0550/ihCD8f0fi87klvAeChOH/uXqkqYdC9.js")), path: "/Projects"}}
+        const locales = [{code: "en", id: "default", name: "English", slug: ""}, {code: "zh-CN", id: "McyK1hlEG", name: "Chinese (China)", slug: "zh-cn"}]
+
+        export async function getPageRoot({ routeId, pathVariables, localeId }) {
+            // We don't want the initial render to immediately have to suspend.
+            await routes[routeId].page.preload()
+
+            const content = React.createElement(
+                Framer.PageRoot,
+                {
+                    isWebsite: true,
+                    routeId,
+                    pathVariables,
+                    routes,
+                    collectionUtils: {},
+                    framerSiteId: "b65f30d4679218a3179b38813a86324db502aa68f980c9a04e6a1174f6c3b786",
+                    notFoundPage: Framer.lazy(() => import("__framer-not-found-page")),
+                    isReducedMotion: undefined,
+                    localeId,
+                    locales,
+                    preserveQueryParams: undefined,
+                }
+            )
+
+            const contentWithFeaturesContext = React.createElement(
+                Framer.LibraryFeaturesProvider,
+                {
+                    children: content,
+                    value: {enableAsyncURLUpdates: false, useGranularSuspense: false}
+                }
+            )
+
+            
+            const page = React.createElement(Framer.PageEffectsProvider, {
+                children: contentWithFeaturesContext,
+                value: {routes: {}}
+            })
+
+            return page
+        }
+
+        const isBrowser = typeof document !== "undefined"
+        if (isBrowser) {
+            window.__framer_importFromPackage = (packageAndFilename, exportIdentifier) => () => {
+                return React.createElement(Framer.ErrorPlaceholder, { error: 'Package component not supported: "' + exportIdentifier + '" in "' + packageAndFilename + '"' })
+            }
+
+            // A lot of libraries assume process.env.NODE_ENV is present in runtime/buildtime, so we are polyfilling it
+            window.process = {
+                ...window.process,
+                env: {
+                    ...(window.process ? window.process.env: undefined),
+                    NODE_ENV: "production"
+                }
+            }
+
+            // Fallback support for stack gaps
+            Framer.installFlexboxGapWorkaroundIfNeeded()
+
+            window.__framer_events = window.__framer_events || []
+        }
+
+        function track() {
+            if (!isBrowser) return
+            window.__framer_events.push(arguments)
+        }
+
+        function callWhenDOMReady(callback) {
+            if (!isBrowser) return
+            if (document.readyState === "interactive" || document.readyState === "complete") {
+                callback()
+            } else {
+                // Note that we’re listening to readystatechange instead of DOMContentLoaded because the latter
+                // doesn’t accurately reflect when the DOM is ready. Specifically, it’s delayed by scripts with
+                // a defer attribute.
+                document.addEventListener("readystatechange", () => {
+                    if (document.readyState === "interactive") callback()
+                })
+            }
+        }
+
+        callWhenDOMReady(async function() {
+            try {
+                const container = document.getElementById("main")
+
+                let routeId, localeId, pathVariables, breakpoints, shouldHydrate = false
+                if ("framerHydrateV2" in container.dataset) {
+                    const routeData = JSON.parse(container.dataset.framerHydrateV2)
+                    routeId = routeData.routeId
+                    localeId = routeData.localeId
+                    pathVariables = routeData.pathVariables
+                    breakpoints = routeData.breakpoints
+                    shouldHydrate = true
+                } else {
+                    const routeData = Framer.inferInitialRouteFromPath(routes, decodeURIComponent(location.pathname), true, locales)
+                    routeId = routeData.routeId
+                    localeId = routeData.localeId
+                    pathVariables = routeData.pathVariables
+                }
+
+                const page = await getPageRoot({ routeId, localeId, pathVariables })
+
+                function handleRecoverableError(error, errorInfo) {
+                    const componentStack = errorInfo?.componentStack
+                    console.warn("Recoverable error during hydration. Please check any custom code or code overrides to fix server/client mismatches.", error, componentStack)
+
+                    // we only want to collect 1%, because this can be quite noisy (floods the data pipeline)
+                    if (Math.random() > 0.01) return
+                    track("published_site_load_recoverable_error", {
+                        message: String(error),
+                        componentStack, // componentStack is more useful
+                        stack: componentStack ? undefined : error instanceof Error && typeof error.stack === "string" ? error.stack : null,
+                    })
+                }
+
+                if (shouldHydrate) {
+                    Framer.withPerformanceMarks("framer-rewrite-breakpoints", () => {
+                        Framer.removeHiddenBreakpointLayersV2(breakpoints)
+                        window.__framer_onRewriteBreakpoints?.(breakpoints)
+                    })
+
+                    React.startTransition(() => {
+                        Framer.markHydrationStart()
+                        Framer.setInitialHydrationState()
+                        if (true) Framer.turnOffReactEventHandling()
+
+                        ReactDOM.hydrateRoot(container, page, { onRecoverableError: handleRecoverableError })
+                    })
+                } else {
+                    ReactDOM.createRoot(container, { onRecoverableError: handleRecoverableError }).render(page)
+                }
+            } catch (error) {
+                track("published_site_load_error", {
+                    message: String(error),
+                    stack: error instanceof Error && typeof error.stack === "string" ? error.stack : null
+                })
+                throw error
+            }
+        })
+
+        
+    
