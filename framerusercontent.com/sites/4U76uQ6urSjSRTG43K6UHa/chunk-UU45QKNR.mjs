@@ -4281,7 +4281,7 @@ var kr = { damping: 60, delay: 0, mass: 1, stiffness: 500, type: "spring" },
                 }),
               }),
               e(C, {
-                href: "https://t.me/credit_erc20",
+                href: "https://t.me/socialcreditoneth",
                 openInNewTab: !1,
                 children: d(t.a, {
                   className: "framer-6doris framer-y3t7xr",
@@ -4381,7 +4381,7 @@ var kr = { damping: 60, delay: 0, mass: 1, stiffness: 500, type: "spring" },
             //     }),
             //   }),
               e(C, {
-                href: "https://x.com/credit_erc20",
+                href: "https://x.com/socialcrediteth",
                 openInNewTab: !1,
                 children: d(t.a, {
                   className: "framer-kx3n50 framer-y3t7xr",
